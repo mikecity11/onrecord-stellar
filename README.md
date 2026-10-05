@@ -1,2 +1,33 @@
-# onrecord-stellar
-Stellar testnet prediction markets for public project promises, with evidence-based human resolution.
+# OnRecord — Stellar project-promise prediction markets
+
+Working title; brand availability has not been checked. Separate from Afterlight.
+
+Testnet-only pooled Yes/No predictions with public criteria, deadlines, evidence and human resolution. Michael Anagor is the intended resolver; his public Stellar wallet address is required before the live contract can be assigned to him.
+
+## Stack and setup
+Node 22, vanilla JavaScript, Freighter, Stellar JS SDK, Rust Soroban contract.
+
+```
+npm ci
+npm run build
+CONTRACT_ID=C... npm start
+cargo test --manifest-path contracts/market/Cargo.toml
+cargo build --manifest-path contracts/market/Cargo.toml --target wasm32v1-none --release
+```
+
+Deploy the Wasm to Stellar testnet with constructor arguments `resolver` (Michael's public address) and `token` (native XLM Stellar Asset Contract). Set `CONTRACT_ID` in Vercel. Signatures stay in Freighter; the API assembles unsigned transactions. The app requires a funded testnet wallet.
+
+## Rules
+- One designated human resolver, who cannot stake.
+- Predictions close before or at the outcome deadline; maximum 30-day markets.
+- Each stake is positive and at most 10 test XLM.
+- Result: Yes, No, or Unclear; public evidence and explanation required.
+- One-hour review delay, with resolver corrections resetting the delay. No independent appeals are implemented.
+- Proportional pooled payouts, no fees; integer rounding dust remains in contract.
+- Unclear and zero-winner outcomes refund original contributions.
+- No result within seven days of deadline: user can claim original contribution. Late resolutions are blocked. Existing proposals remain authoritative.
+- Claims require user authorization and cannot be repeated.
+- Persistent storage TTL is renewed on access. Testnet data may reset. This is an unaudited prototype, not a mainnet product.
+
+## Pending
+Michael's resolver address, production contract configuration, live wallet end-to-end verification, brand review. GenLayer integration is intentionally deferred.
