@@ -4,3 +4,5 @@ node_modules/
 **/target/
 *.secret.json
 public/wallet.bundle.js
+
+**/test_snapshots/

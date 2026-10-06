@@ -2,7 +2,7 @@
 
 Working title; brand availability has not been checked. Separate from Afterlight.
 
-Testnet-only pooled Yes/No predictions with public criteria, deadlines, evidence and human resolution. Michael Anagor is the intended resolver; his public Stellar wallet address is required before the live contract can be assigned to him.
+Testnet-only pooled Yes/No predictions with public criteria, deadlines, evidence and human resolution. Michael Anagor is the intended resolver; his public Stellar wallet is assigned in the deployed testnet contract (see deployment.json).
 
 ## Stack and setup
 Node 22, vanilla JavaScript, Freighter, Stellar JS SDK, Rust Soroban contract.
@@ -30,4 +30,4 @@ Deploy the Wasm to Stellar testnet with constructor arguments `resolver` (Michae
 - Persistent storage TTL is renewed on access. Testnet data may reset. This is an unaudited prototype, not a mainnet product.
 
 ## Pending
-Michael's resolver address, production contract configuration, live wallet end-to-end verification, brand review. GenLayer integration is intentionally deferred.
+Live resolver-signing and payout verification, brand review. GenLayer integration is intentionally deferred.
