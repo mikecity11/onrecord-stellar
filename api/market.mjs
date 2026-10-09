@@ -4,7 +4,7 @@ export default async function handler(req,res) {
  res.setHeader('Cache-Control','no-store');
  try {
   const b=req.method==='GET'?req.query:req.body;
-  if(b.action==='config') return res.json({network:'Stellar Testnet',contractId:contractId||null,resolverName:'Michael Anagor',reviewSeconds:3600,refundSeconds:604800});
+  if(b.action==='config') return res.json({network:'Stellar Testnet',contractId:contractId||null,resolverAddress:readAddress,reviewSeconds:3600,refundSeconds:604800});
   if(b.action==='list' && !b.address) b.address=readAddress;
   if(!StrKey.isValidEd25519PublicKey(b.address||'')) return res.status(400).json({error:'Connect a funded Stellar testnet wallet.'});
   if(b.action==='list') {

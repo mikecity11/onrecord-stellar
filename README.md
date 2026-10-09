@@ -2,7 +2,7 @@
 
 Working title; brand availability has not been checked. Separate from Afterlight.
 
-Testnet-only pooled Yes/No predictions with public criteria, deadlines, evidence and human resolution. Michael Anagor is the intended resolver; his public Stellar wallet is assigned in the deployed testnet contract (see deployment.json).
+Testnet-only pooled Yes/No predictions with public criteria, deadlines, evidence and human resolution. Resolver wallet GC6CDDQM4K2SVRDCKWL4LFNFPIZEXGGDJBLBHQSIFL2KPTYAVUK3HNN3 is assigned in the deployed testnet contract (see deployment.json).
 
 ## Stack and setup
 Node 22, vanilla JavaScript, Freighter, Stellar JS SDK, Rust Soroban contract.
@@ -15,7 +15,7 @@ cargo test --manifest-path contracts/market/Cargo.toml
 cargo build --manifest-path contracts/market/Cargo.toml --target wasm32v1-none --release
 ```
 
-Deploy the Wasm to Stellar testnet with constructor arguments `resolver` (Michael's public address) and `token` (native XLM Stellar Asset Contract). Set `CONTRACT_ID` in Vercel. Signatures stay in Freighter; the API assembles unsigned transactions. The app requires a funded testnet wallet.
+Deploy the Wasm to Stellar testnet with constructor arguments `resolver` (the designated public wallet address) and `token` (native XLM Stellar Asset Contract). Set `CONTRACT_ID` in Vercel. Signatures stay in Freighter; the API assembles unsigned transactions. The app requires a funded testnet wallet.
 
 ## Rules
 - One designated human resolver, who cannot stake.
