@@ -13,3 +13,5 @@
 Pending: live resolution signed by Michael and claim verification after the one-hour review period. No mainnet claims, independent appeals or GenLayer integration. The disposable demonstration account key was not retained.
 
 The Soroban SDK host test dependency was pinned to ed25519-dalek 2.2.0 in Cargo.lock to avoid a transitive incompatible major upgrade. Use the committed lockfile.
+
+9 October update: four Node tests pass, including metadata round-trip, legacy compatibility, placeholder/length validation and pending/resolved receipt export. Frontend bundle builds. Real-world templates and current-state promise receipts use the deployed contract without changing its payout rules.

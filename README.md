@@ -2,7 +2,7 @@
 
 Working title; brand availability has not been checked. Separate from Afterlight.
 
-Testnet-only pooled Yes/No predictions with public criteria, deadlines, evidence and human resolution. Resolver wallet GC6CDDQM4K2SVRDCKWL4LFNFPIZEXGGDJBLBHQSIFL2KPTYAVUK3HNN3 is assigned in the deployed testnet contract (see deployment.json).
+Testnet-only pooled Yes/No predictions on real-world public promises, with public criteria, deadlines, evidence and human resolution. Resolver wallet GC6CDDQM4K2SVRDCKWL4LFNFPIZEXGGDJBLBHQSIFL2KPTYAVUK3HNN3 is assigned in the deployed testnet contract (see deployment.json).
 
 ## Stack and setup
 Node 22, vanilla JavaScript, Freighter, Stellar JS SDK, Rust Soroban contract.
@@ -31,3 +31,7 @@ Deploy the Wasm to Stellar testnet with constructor arguments `resolver` (the de
 
 ## Pending
 Live resolver-signing and payout verification, brand review. GenLayer integration is intentionally deferred.
+
+## Public promises
+
+Create flow provides infrastructure, electricity, education and public-service templates. Organisation, location and category are encoded with delivery criteria in the existing onchain rules field; legacy markets remain readable. Promise receipts link to current contract state, provide a JSON export and show deadline, verdict and claim timing. They do not archive source webpages or expose a full correction history. Templates are illustrative and require real sources before publishing.
