@@ -42,6 +42,7 @@ impl PromiseMarket {
         e.storage().instance().set(&Key::Token, &token);
         e.storage().instance().set(&Key::Count, &0u32); keep(&e);
     }
+    pub fn fee_bps() -> u32 { 100 }
     pub fn config(e: Env) -> (Address, Address, u32) {
         keep(&e); (e.storage().instance().get(&Key::Resolver).unwrap(), e.storage().instance().get(&Key::Token).unwrap(), e.storage().instance().get(&Key::Count).unwrap())
     }
@@ -91,13 +92,21 @@ impl PromiseMarket {
         assert!((timeout && m.outcome == 0) || (m.outcome != 0 && e.ledger().timestamp() >= m.claim_at), "not claimable");
         let mut p = Self::position(e.clone(),id,user.clone()); assert!(!p.claimed, "already claimed");
         let refund = m.outcome == 3 || m.outcome == 0 || (m.outcome == 1 && m.yes == 0) || (m.outcome == 2 && m.no == 0);
-        let amount = if refund { p.yes + p.no } else {
+        let gross = if refund { p.yes + p.no } else {
             let (own,pool) = if m.outcome == 1 { (p.yes,m.yes) } else { (p.no,m.no) };
             own.checked_mul(m.yes + m.no).unwrap() / pool
         };
+        // Fee only on positive net profit, including both sides of a user's stake.
+        // Principal, losing positions and every refund are fee-free.
+        let profit = if refund { 0 } else { (gross - p.yes - p.no).max(0) };
+        let fee = profit / 100; // floor to whole stroops; exactly 1% before rounding
+        let amount = gross - fee;
         p.claimed = true; let k = Key::Position(id,user.clone()); e.storage().persistent().set(&k,&p);
         e.storage().persistent().extend_ttl(&k,100_000,200_000);
-        if amount > 0 { let t: Address = e.storage().instance().get(&Key::Token).unwrap(); token::Client::new(&e,&t).transfer(&e.current_contract_address(),&user,&amount); } amount
+        let t: Address = e.storage().instance().get(&Key::Token).unwrap();
+        let tc = token::Client::new(&e,&t);
+        if fee > 0 { let resolver: Address = e.storage().instance().get(&Key::Resolver).unwrap(); tc.transfer(&e.current_contract_address(),&resolver,&fee); }
+        if amount > 0 { tc.transfer(&e.current_contract_address(),&user,&amount); } amount
     }
 }
 
