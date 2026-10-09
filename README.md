@@ -2,7 +2,7 @@
 
 Working title; brand availability has not been checked. Separate from Afterlight.
 
-Testnet-only pooled Yes/No predictions on real-world public promises, with public criteria, deadlines, evidence and human resolution. Resolver wallet GC6CDDQM4K2SVRDCKWL4LFNFPIZEXGGDJBLBHQSIFL2KPTYAVUK3HNN3 is assigned in the deployed testnet contract (see deployment.json).
+User-listed, testnet-only Yes/No prediction markets across sports, politics, entertainment, business, crypto, technology and everyday events. Issuers publish detailed Yes, No and unclear/refund rules, evidence sources and deadlines. Resolver wallet GC6CDDQM4K2SVRDCKWL4LFNFPIZEXGGDJBLBHQSIFL2KPTYAVUK3HNN3 is assigned in the deployed testnet contract (see deployment.json).
 
 ## Stack and setup
 Node 22, vanilla JavaScript, Freighter, Stellar JS SDK, Rust Soroban contract.
@@ -32,6 +32,12 @@ Deploy the Wasm to Stellar testnet with constructor arguments `resolver` (the de
 ## Pending
 Live resolver-signing and payout verification, brand review. GenLayer integration is intentionally deferred.
 
-## Public promises
+## User-listed prediction markets
 
-Create flow provides infrastructure, electricity, education and public-service templates. Organisation, location and category are encoded with delivery criteria in the existing onchain rules field; legacy markets remain readable. Promise receipts link to current contract state, provide a JSON export and show deadline, verdict and claim timing. They do not archive source webpages or expose a full correction history. Templates are illustrative and require real sources before publishing.
+Anyone with a funded Stellar Testnet wallet can list a market. The creator is recorded as the issuer; a designated human resolver signs settlement against the issuer’s published rules. Issuers do not automatically gain resolution authority.
+
+The frontend provides category/search/status filters, pool sorting, explicit outcome-rule fields, category templates, issuer wallet visibility, a wallet disconnect action, current-state market receipts and JSON exports. Examples are labelled templates and are not live markets. No simulated liquidity or adoption metrics are displayed.
+
+New metadata is encoded in `ONRECORD-MARKET-V2` JSON within the existing contract rules field; original rules and `ONRECORD-PROMISE-V1` records remain readable. Combined rules are limited to 2,000 UTF-8 bytes. The deployed contract and payout rules are unchanged.
+
+Receipts reference current state, not a full verdict correction history. Source links are not archived webpage snapshots. Live resolver-signed resolution and subsequent claim verification remain pending.

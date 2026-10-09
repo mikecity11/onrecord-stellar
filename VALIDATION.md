@@ -15,3 +15,5 @@ Pending: live resolution signed by Michael and claim verification after the one-
 The Soroban SDK host test dependency was pinned to ed25519-dalek 2.2.0 in Cargo.lock to avoid a transitive incompatible major upgrade. Use the committed lockfile.
 
 9 October update: four Node tests pass, including metadata round-trip, legacy compatibility, placeholder/length validation and pending/resolved receipt export. Frontend bundle builds. Real-world templates and current-state promise receipts use the deployed contract without changing its payout rules.
+
+9 October marketplace redesign: six Node tests pass. Added structured Yes/No/refund-rule validation, UTF-8 byte limits, issuer attribution, legacy reads and combined market discovery checks. Responsive market browser and creation flow use the same testnet contract.
