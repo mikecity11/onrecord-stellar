@@ -43,6 +43,8 @@ impl PromiseMarket {
         e.storage().instance().set(&Key::Count, &0u32); keep(&e);
     }
     pub fn fee_bps() -> u32 { 100 }
+    pub fn issuer_fee_bps() -> u32 { 30 }
+    pub fn resolver_fee_bps() -> u32 { 70 }
     pub fn config(e: Env) -> (Address, Address, u32) {
         keep(&e); (e.storage().instance().get(&Key::Resolver).unwrap(), e.storage().instance().get(&Key::Token).unwrap(), e.storage().instance().get(&Key::Count).unwrap())
     }
@@ -99,13 +101,16 @@ impl PromiseMarket {
         // Fee only on positive net profit, including both sides of a user's stake.
         // Principal, losing positions and every refund are fee-free.
         let profit = if refund { 0 } else { (gross - p.yes - p.no).max(0) };
-        let fee = profit / 100; // floor to whole stroops; exactly 1% before rounding
+        let issuer_fee = profit.checked_mul(30).unwrap() / 10_000;
+        let resolver_fee = profit.checked_mul(70).unwrap() / 10_000;
+        let fee = issuer_fee + resolver_fee; // each share floors to whole stroops
         let amount = gross - fee;
         p.claimed = true; let k = Key::Position(id,user.clone()); e.storage().persistent().set(&k,&p);
         e.storage().persistent().extend_ttl(&k,100_000,200_000);
         let t: Address = e.storage().instance().get(&Key::Token).unwrap();
         let tc = token::Client::new(&e,&t);
-        if fee > 0 { let resolver: Address = e.storage().instance().get(&Key::Resolver).unwrap(); tc.transfer(&e.current_contract_address(),&resolver,&fee); }
+        if issuer_fee > 0 { tc.transfer(&e.current_contract_address(),&m.creator,&issuer_fee); }
+        if resolver_fee > 0 { let resolver: Address = e.storage().instance().get(&Key::Resolver).unwrap(); tc.transfer(&e.current_contract_address(),&resolver,&resolver_fee); }
         if amount > 0 { tc.transfer(&e.current_contract_address(),&user,&amount); } amount
     }
 }

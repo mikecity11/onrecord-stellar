@@ -36,3 +36,9 @@ test('market discovery combines category, search, status and pool sorting withou
  assert.deepEqual(filterMarkets(rows,{state:'resolved'}).map(x=>x.id),[3]);assert.deepEqual(rows.map(x=>x.id),[1,2,3]);
  assert.equal(displayCategory({...a,rules:'Legacy criteria'}),'Other');
 });
+
+test('receipts identify issuer and platform fee recipients and preserve earlier fee rules',()=>{
+ const m={id:1,creator:'issuer-wallet',question:'Will Team A win?',rules:'Official result determines the winner.',source:'https://example.org',close:100,deadline:200,outcome:0,claim_at:0,feeBps:100,issuerFeeBps:30,resolverFeeBps:70};
+ const r=promiseRecord(m,'contract','resolver-wallet');assert.equal(r.issuerFeeBps,30);assert.equal(r.resolverFeeBps,70);assert.equal(r.issuerFeeRecipient,'issuer-wallet');assert.equal(r.feeRecipient,'resolver-wallet');
+ const legacy=promiseRecord({...m,issuerFeeBps:undefined,resolverFeeBps:undefined},'old-contract','resolver-wallet');assert.equal(legacy.issuerFeeBps,0);assert.equal(legacy.resolverFeeBps,100);
+});

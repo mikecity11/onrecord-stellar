@@ -11,5 +11,5 @@ const previous=JSON.parse(await readFile('deployment.json','utf8'));
 const wasm=await readFile('contracts/market/target/wasm32v1-none/release/promise_market.wasm');
 const uploaded=await send(Operation.uploadContractWasm({wasm}));
 const result=await send(Operation.createCustomContract({address:new Address(deployer.publicKey()),wasmHash:uploaded.value,salt:randomBytes(32),constructorArgs:[new Address(resolver).toScVal(),new Address(Asset.native().contractId(Networks.TESTNET)).toScVal()]}));
-const legacyContracts=[{contractId:previous.contractId,feeBps:previous.feeBps||0},...(previous.legacyContracts||[])];
-const record={network:'testnet',feeBps:100,feeBasis:'positive-net-profit',legacyContracts,contractId:result.value,resolver,token:Asset.native().contractId(Networks.TESTNET),uploadTransaction:uploaded.hash,deployTransaction:result.hash};await writeFile('deployment.json',JSON.stringify(record,null,2)+'\n');console.log(JSON.stringify(record,null,2));
+const legacyContracts=[{contractId:previous.contractId,feeBps:previous.feeBps||0,issuerFeeBps:previous.issuerFeeBps||0,resolverFeeBps:previous.resolverFeeBps??previous.feeBps??0},...(previous.legacyContracts||[])];
+const record={network:'testnet',feeBps:100,issuerFeeBps:30,resolverFeeBps:70,feeBasis:'positive-net-profit',legacyContracts,contractId:result.value,resolver,token:Asset.native().contractId(Networks.TESTNET),uploadTransaction:uploaded.hash,deployTransaction:result.hash};await writeFile('deployment.json',JSON.stringify(record,null,2)+'\n');console.log(JSON.stringify(record,null,2));

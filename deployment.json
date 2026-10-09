@@ -1,16 +1,24 @@
 {
   "network": "testnet",
   "feeBps": 100,
+  "issuerFeeBps": 30,
+  "resolverFeeBps": 70,
   "feeBasis": "positive-net-profit",
   "legacyContracts": [
+    {
+      "contractId": "CBOKTE7ZZIID3Q7TNG2D57C7D6242YMIDU5TTYFXJ3KWOAR62UD556NJ",
+      "feeBps": 100,
+      "issuerFeeBps": 0,
+      "resolverFeeBps": 100
+    },
     {
       "contractId": "CD7KB3KOH5VF3KOPPOGDYACAIQXEBFKNQWFIKDBXR3DQPYPLBWZOB2YY",
       "feeBps": 0
     }
   ],
-  "contractId": "CBOKTE7ZZIID3Q7TNG2D57C7D6242YMIDU5TTYFXJ3KWOAR62UD556NJ",
+  "contractId": "CCHUTI7DWXPHSRHCIFZCMMD7M3U2HRV4Z2WJLP2JNS4YA22GSX3FMN5X",
   "resolver": "GC6CDDQM4K2SVRDCKWL4LFNFPIZEXGGDJBLBHQSIFL2KPTYAVUK3HNN3",
   "token": "CDLZFC3SYJYDZT7K67VZ75HPJVIEUVNIXF47ZG2FB2RMQQVU2HHGCYSC",
-  "uploadTransaction": "3add5d31af116c6e02637787e84300ae44d136b1e3795a721941dd16a8fbd5ce",
-  "deployTransaction": "63d62c13177811c1457b35aa3259b13e1f583b190139a187726a44888129569e"
+  "uploadTransaction": "151e6404f772d8b11fd0e84c0c855df614ffdb161cfe1c185e9f9a53679402b6",
+  "deployTransaction": "7c2ca73d761ad03888507ce9ebd7578b474215b847556b82bbfb6d106ad2d425"
 }

@@ -23,8 +23,8 @@ Deploy the Wasm to Stellar testnet with constructor arguments `resolver` (the de
 - Each stake is positive and at most 10 test XLM.
 - Result: Yes, No, or Unclear; public evidence and explanation required.
 - One-hour review delay, with resolver corrections resetting the delay. No independent appeals are implemented.
-- Proportional pooled payouts. New markets charge 1% of positive net profit at claim, paid directly to the resolver wallet. Profit is gross payout minus the claimant’s stakes on both sides. Principal, losing positions and refunds are fee-free. Fees round down to whole stroops; payout rounding dust remains in contract.
-- Original markets retain their 0% fee and original contract. Market links and transaction requests identify the contract explicitly; the original contract cannot be upgraded.
+- Proportional pooled payouts. New markets charge 1% of positive net profit at claim, split as 0.3% to the issuer wallet and 0.7% to the resolver/platform wallet. Profit is gross payout minus the claimant’s stakes on both sides. Principal, losing positions and refunds are fee-free. Each fee share rounds down to whole stroops; payout rounding dust remains in contract.
+- Earlier markets retain their original contract and fee rules (0% or 1% to the resolver). Market links and transaction requests identify the contract explicitly; the original contract cannot be upgraded.
 - Unclear and zero-winner outcomes refund original contributions.
 - No result within seven days of deadline: user can claim original contribution. Late resolutions are blocked. Existing proposals remain authoritative.
 - Claims require user authorization and cannot be repeated.
@@ -37,7 +37,7 @@ Live resolver-signing and payout verification, brand review. GenLayer integratio
 
 Anyone with a funded Stellar Testnet wallet can list a market. The creator is recorded as the issuer; a designated human resolver signs settlement against the issuer’s published rules. Issuers do not automatically gain resolution authority.
 
-The frontend provides category/search/status filters, pool sorting, explicit outcome-rule fields, category templates, issuer wallet visibility, a wallet disconnect action, current-state market receipts and JSON exports. Examples are labelled templates and are not live markets. No simulated liquidity or adoption metrics are displayed.
+The frontend provides category/search/status filters, pool sorting, explicit outcome-rule fields, category templates, issuer wallet visibility, a copy-market-link action for promotion, a wallet disconnect action, current-state market receipts and JSON exports. Examples are labelled templates and are not live markets. No simulated liquidity or adoption metrics are displayed.
 
 New metadata is encoded in `ONRECORD-MARKET-V2` JSON within the contract rules field; original rules and `ONRECORD-PROMISE-V1` records remain readable. Combined rules are limited to 2,000 UTF-8 bytes. Receipts identify the contract, fee basis and fee recipient.
 

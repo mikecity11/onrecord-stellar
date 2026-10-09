@@ -4,13 +4,13 @@ export default async function handler(req,res) {
  res.setHeader('Cache-Control','no-store');
  try {
   const b=req.method==='GET'?req.query:req.body;
-  if(b.action==='config') return res.json({network:'Stellar Testnet',contractId:contractId||null,resolverAddress:readAddress,feeBps:deployments[0].feeBps,feeBasis:'positive-net-profit',contracts:deployments,reviewSeconds:3600,refundSeconds:604800});
+  if(b.action==='config') return res.json({network:'Stellar Testnet',contractId:contractId||null,resolverAddress:readAddress,feeBps:deployments[0].feeBps,issuerFeeBps:deployments[0].issuerFeeBps,resolverFeeBps:deployments[0].resolverFeeBps,feeBasis:'positive-net-profit',contracts:deployments,reviewSeconds:3600,refundSeconds:604800});
   if(b.action==='list' && !b.address) b.address=readAddress;
   if(!StrKey.isValidEd25519PublicKey(b.address||'')) return res.status(400).json({error:'Connect a funded Stellar testnet wallet.'});
   if(b.action==='list') {
    const batches=await Promise.all(deployments.map(async d=>{
     const {value:c}=await simulate(b.address,'config',[],d.contractId);const count=Number(c[2]);
-    const markets=await Promise.all(Array.from({length:Math.min(count,50)},(_,i)=>simulate(b.address,'get',[sc(count-1-i,'u32')],d.contractId).then(r=>({id:count-1-i,contractId:d.contractId,feeBps:d.feeBps,...r.value}))));return {count,markets};
+    const markets=await Promise.all(Array.from({length:Math.min(count,50)},(_,i)=>simulate(b.address,'get',[sc(count-1-i,'u32')],d.contractId).then(r=>({id:count-1-i,contractId:d.contractId,feeBps:d.feeBps,issuerFeeBps:d.issuerFeeBps||0,resolverFeeBps:d.resolverFeeBps??d.feeBps??0,...r.value}))));return {count,markets};
    }));
    return res.json(jsonSafe({resolver:readAddress,count:batches.reduce((n,b)=>n+b.count,0),markets:batches.flatMap(b=>b.markets)}));
   }
